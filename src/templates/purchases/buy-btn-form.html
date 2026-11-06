@@ -1,0 +1,16 @@
+{% if product %}
+
+<form method="POST" action="{% url 'purchases:start' %}" class="space-y-4">
+    {% csrf_token %}
+    <input type="hidden" value="{{ product.handle }}" name="handle" />
+    <div class="flex items-baseline text-heading">
+        <span class="text-5xl font-extrabold tracking-tight">${{ product.display_price }}</span>
+        <!-- <span class="ms-2 font-medium text-body">/month</span> -->
+    </div>
+    {% if not request.user.is_authenticated %}
+    <a href="/login"> Login now to purchase</a>
+    {% else %}
+    <button type="submit" class="text-heading bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-base text-sm px-4 py-2.5 text-center leading-5">Buy Now</button>
+    {% endif %}
+</form>
+{% endif %}

@@ -18,3 +18,15 @@ scripts:
     - mkdir -p src/static/vendor/flowbite/
     - curl -L https://unpkg.com/htmx.org@1.8.2 -o ./src/static/vendor/htmx/htmx.min.js
     - cp ./node_modules/flowbite/dist/flowbite.min.js ./src/static/vendor/flowbite/flowbite.min.js
+  win_vendor_pull:
+    # - if exist src\static\vendor rmdir /s /q src\static\vendor
+    - mkdir src\static\vendor\htmx
+    - mkdir src\static\vendor\flowbite
+    - curl.exe -fL https://unpkg.com/htmx.org@1.8.2 -o src\static\vendor\htmx\htmx.min.js
+    - copy /Y node_modules\flowbite\dist\flowbite.min.js src\static\vendor\flowbite\flowbite.min.js
+  # win_vendor_pull:
+  #   - Remove-Item src/static/vendor -Recurse -Force -ErrorAction SilentlyContinue
+  #   - New-Item -ItemType Directory -Force src/static/vendor/htmx
+  #   - New-Item -ItemType Directory -Force src/static/vendor/flowbite
+  #   - curl.exe -L https://unpkg.com/htmx.org@1.8.2 -o src/static/vendor/htmx/htmx.min.js
+  #   - Copy-Item node_modules/flowbite/dist/flowbite.min.js src/static/vendor/flowbite/flowbite.min.js

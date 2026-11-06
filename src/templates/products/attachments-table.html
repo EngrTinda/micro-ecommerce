@@ -1,0 +1,46 @@
+<!-- {{ attachments }} -->
+<div class="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
+        <table class="w-full text-sm text-left rtl:text-right text-body">
+            <thead class="bg-neutral-secondary-soft border-b border-default">
+                <tr>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Name
+                    </th>
+                    <th scope="col" class="px-6 py-3 font-medium">
+                     
+                    </th>
+                 
+                    <th scope="col" class="px-6 py-3 font-medium">
+                        Download
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if attachments.exists %}
+                {% for attachment in attachments %}
+
+                    <tr class="odd:bg-neutral-primary even:bg-neutral-secondary-soft border-b border-default">
+                        <th scope="row" class="px-6 py-4 font-medium text-heading whitespace-nowrap">
+                            {{ attachment.display_name }}
+                        </th>
+                        <td class="px-6 py-4">
+                            {% if attachment.is_free %} Free Download {% endif %}
+                        </td>
+                        
+                    
+                        <td class="px-6 py-4">
+                            {% if is_owner or attachment.is_free %}<a href="{{ attachment.get_download_url }}" class="font-medium text-fg-brand hover:underline">Download</a>{% else %}Purchase to Download{% endif %}
+                        </td>
+                    </tr>
+
+
+
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="3" class="px-6 py-4">No attachments available.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+</div>

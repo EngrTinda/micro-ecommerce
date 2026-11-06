@@ -2,5 +2,9 @@
   "devDependencies": {
     "flowbite": "^1.6.4",
     "tailwindcss": "^3.2.7"
+  },
+  "scripts": {
+    "css:build": "tailwindcss -i ./src/static/tailwind/tailwind-input.css -o ./src/static/css/output.css",
+    "css:watch": "tailwindcss -i ./src/static/tailwind/tailwind-input.css -o ./src/static/css/output.css --watch"
   }
 }
