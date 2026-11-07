@@ -30,3 +30,6 @@ scripts:
   #   - New-Item -ItemType Directory -Force src/static/vendor/flowbite
   #   - curl.exe -L https://unpkg.com/htmx.org@1.8.2 -o src/static/vendor/htmx/htmx.min.js
   #   - Copy-Item node_modules/flowbite/dist/flowbite.min.js src/static/vendor/flowbite/flowbite.min.js
+  build: docker build -f src/Dockerfile -t micro-ecommerce .
+  docker-dev: docker run --env-file .env -p 8001:8000 --rm --name micro-ecommerce-dev -it micro-ecommerce
+  docker-prod:

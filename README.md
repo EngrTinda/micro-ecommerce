@@ -43,3 +43,11 @@ python -m pip install pip pip-tools rav --upgrade
 rav run win_installs
 rav run win_freeze
 ```
+
+### Local storage and Linode Object Storage
+
+Local filesystem storage is used by default, so the development server and
+`python manage.py collectstatic --no-input` do not require access to Linode.
+To use the configured Linode S3-compatible storage, set `USE_S3_STORAGE=True`
+in `.env` and provide the existing `AWS_ACCESS_KEY_ID` and
+`AWS_SECRET_ACCESS_KEY` values.

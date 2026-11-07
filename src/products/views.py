@@ -90,7 +90,8 @@
 #     response['Content-Type'] = content_type or 'application/octet-stream'
 #     response['Content-Disposition'] = f'attachment; filename="{filename}"'
 #     return response
-from django.http import FileResponse, HttpResponseBadRequest
+from django.conf import settings
+from django.http import FileResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 from .forms import ProductForm, ProductUpdateForm, ProductAttachmentInlineFormSet
@@ -167,12 +168,20 @@ def product_attachment_download_view(request, handle=None, pk=None):
         request.user.is_authenticated
         and attachment.product.user_id == request.user.pk
     )
-    can_download = attachment.is_free or is_owner
+    can_download = attachment.is_free or False
+    if request.user.is_authenticated and can_download is False:
+        can_download = request.user.purchase_set.all().filter(product=attachment.product, completed=True).exists()
     if can_download is False:
         return HttpResponseBadRequest()
-    file = attachment.file.open("rb")
+    file_name = attachment.file.name
+
+    if settings.USE_S3_STORAGE:
+        from cfehome.storages.utils import generate_presigned_url
+
+        return HttpResponseRedirect(generate_presigned_url(file_name))
+
     return FileResponse(
-        file,
+        attachment.file.open("rb"),
         as_attachment=True,
-        filename=attachment.file.name.rsplit("/", 1)[-1],
+        filename=file_name.rsplit("/", 1)[-1],
     )

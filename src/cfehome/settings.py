@@ -26,9 +26,13 @@ SECRET_KEY = config("DJANGO_SECRET_KEY", default=None)
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config("DJANGO_DEBUG", cast=bool, default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config(
+    "ALLOWED_HOSTS",
+    cast=lambda value: [host.strip() for host in value.split(",") if host.strip()],
+    default="",
+)
 
 
 # Application definition
@@ -86,7 +90,7 @@ DATABASES = {
     }
 }
 
-from .db import * #noqa
+#from .db import * #noqa
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -128,6 +132,10 @@ STATIC_ROOT = BASE_DIR.parent / "local-cdn" / "static"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.parent / "local-cdn" / "media"
 PROTECTED_MEDIA_ROOT = BASE_DIR.parent / "local-cdn" / "protected"
+from cfehome.storages.conf import * # noqa
+
+
+
 
 
 

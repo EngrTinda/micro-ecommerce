@@ -4,3 +4,7 @@ dj-database-url
 python-decouple
 Pillow
 stripe
+boto3
+django-storages[s3]
+gunicorn 
+waitress
